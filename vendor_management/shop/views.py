@@ -8,6 +8,8 @@ from rest_framework import generics
 from .models import Vendorshop
 from .serializers import ShopSerializer
 from django.shortcuts import get_object_or_404
+from geopy.distance import geodesic
+
 
 class RegisterUserView(APIView):
     permission_classes = [AllowAny]
@@ -46,3 +48,31 @@ class ShopDetailView(generics.RetrieveUpdateDestroyAPIView):
         shop = get_object_or_404(Vendorshop, id=kwargs['pk'], Owner=request.user)
         shop.delete()
         return Response({'message': 'Shop deleted successfully'})
+
+class NearbyShopsView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lat = request.GET.get("latitude")
+        lon = request.GET.get("longitude")
+        radius = request.GET.get("radius", 5)  # Default to 5km
+
+        # Validate latitude and longitude
+        if not lat or not lon:
+            return Response({"error": "latitude and longitude are required"})
+
+        try:
+            lat = float(lat)
+            lon = float(lon)
+            radius = float(radius)
+        except ValueError:
+            return Response({"error": "latitude, longitude, and radius must be valid numbers"})
+
+        nearby_shops = []
+        for shop in Vendorshop.objects.all():
+            if shop.latitude is not None and shop.longitude is not None:  # Ensure shop has valid coordinates
+                shop_distance = geodesic((lat, lon), (shop.latitude, shop.longitude)).km
+                if shop_distance <= radius:
+                    nearby_shops.append(ShopSerializer(shop).data)
+
+        return Response(nearby_shops)

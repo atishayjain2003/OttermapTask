@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from shop.views import RegisterUserView, RegisterShopView, ShopDetailView
+from shop.views import RegisterUserView, RegisterShopView, ShopDetailView, NearbyShopsView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', RegisterUserView.as_view()),
     path('shops/', RegisterShopView.as_view()),
     path('shops/<int:pk>/', ShopDetailView.as_view()),
+    path('nearby-shops/', NearbyShopsView.as_view()),
 ]

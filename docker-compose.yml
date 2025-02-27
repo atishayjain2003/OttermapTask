@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app  # Ensure local files are mapped inside the container
+    working_dir: /app/vendor_management  # Set working directory inside container
+    environment:
+      - DEBUG=True
+    command: python manage.py runserver 0.0.0.0:8000

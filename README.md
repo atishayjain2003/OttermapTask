@@ -22,8 +22,8 @@
     8. Catch: A user can only perform read, update and delete operations on shops created by the user only.
     9. http://127.0.0.1:8000/nearby-shops/ this is the public endpoint, method=POST that will be used to find the nearby shops within the specified radius. Token is not required for this endpoint.
         The format of POST request should be : {"latitude": 26.8467,"longitude": 80.9462,"radius": 5}, where the mentioned attributes are for understanding purposes only.
-   10. I got to learn a lot from this assignment, worked on permissions, authentication, ensuring user authenticated crud operations and docker as well.
-   11. If you read it till here, i hope you must have understoood the project and the use of endpoints as well. 
+4. I got to learn a lot from this assignment, worked on permissions, authentication, ensuring user authenticated crud operations and docker as well.
+5. 11. If you read it till here, i hope you must have understoood the project and the use of endpoints as well. 
 
     
 

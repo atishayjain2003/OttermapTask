@@ -7,6 +7,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
 from .models import Vendorshop
 from .serializers import ShopSerializer
+from django.shortcuts import get_object_or_404
 
 class RegisterUserView(APIView):
     permission_classes = [AllowAny]
@@ -35,3 +36,13 @@ class RegisterShopView(generics.ListCreateAPIView):
         return Vendorshop.objects.filter(Owner=self.request.user)
     def perform_create(self, serializer):
         serializer.save(Owner=self.request.user)
+
+class ShopDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class=ShopSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return Vendorshop.objects.filter(Owner=self.request.user)
+    def delete(self, request, *args, **kwargs):
+        shop = get_object_or_404(Vendorshop, id=kwargs['pk'], Owner=request.user)
+        shop.delete()
+        return Response({'message': 'Shop deleted successfully'})

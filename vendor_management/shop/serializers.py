@@ -9,4 +9,4 @@ class UserSerializer(serializers.ModelSerializer):
 class ShopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendorshop
-        fields =  ['Shopname', 'Businesstype', 'Latitude', 'Longitude']
+        fields =  ['id','Shopname', 'Businesstype', 'Latitude', 'Longitude']

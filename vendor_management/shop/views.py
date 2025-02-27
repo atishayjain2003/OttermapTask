@@ -52,26 +52,29 @@ class ShopDetailView(generics.RetrieveUpdateDestroyAPIView):
 class NearbyShopsView(APIView):
     permission_classes = [AllowAny]
 
-    def get(self, request):
-        lat = request.GET.get("latitude")
-        lon = request.GET.get("longitude")
-        radius = request.GET.get("radius", 5)  # Default to 5km
+    
+    def post(self, request):
+        data = request.data  # Read JSON body
+        lat = data.get("latitude")
+        lon = data.get("longitude")
+        radius = data.get("radius", 5)  # Default to 5 km
 
-        # Validate latitude and longitude
+        # Validate input
         if not lat or not lon:
-            return Response({"error": "latitude and longitude are required"})
+            return Response({"error": "latitude and longitude are required"}, status=400)
 
         try:
             lat = float(lat)
             lon = float(lon)
             radius = float(radius)
         except ValueError:
-            return Response({"error": "latitude, longitude, and radius must be valid numbers"})
+            return Response({"error": "latitude, longitude, and radius must be valid numbers"}, status=400)
 
+        # Get nearby shops
         nearby_shops = []
         for shop in Vendorshop.objects.all():
-            if shop.latitude is not None and shop.longitude is not None:  # Ensure shop has valid coordinates
-                shop_distance = geodesic((lat, lon), (shop.latitude, shop.longitude)).km
+            if shop.Latitude is not None and shop.Longitude is not None:
+                shop_distance = geodesic((lat, lon), (shop.Latitude, shop.Longitude)).km
                 if shop_distance <= radius:
                     nearby_shops.append(ShopSerializer(shop).data)
 

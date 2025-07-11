@@ -1,6 +1,6 @@
 # OttermapTask
 1. So this project is part of the task given to me by Ottermap for the position of Python Developer Intern.
-2. I have tried to complete this project as much as i can on 27th February 2025 only, because i have an on campus interview on 28th February 2025.
+2. I have tried to complete this project as much as i can on 27th February 2025 only, because i have a campus interview on 28th February 2025.
 3. So the project can be run as:
    1. Clone the repository
    2. Set up and activate virtual environment
